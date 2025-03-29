@@ -1,8 +1,11 @@
+use crate::complex::Complex; 
+
 pub trait Fractal {
     fn get_iterations(&self, z: Complex, c: Complex, max_iterations: u32) -> u32;
 }
 
-type Color = [u8; 4] 
+type Color = [u8; 4];
+
 pub trait ColorPalette {
     fn color(&self, iterations: u32, max_iterations: u32) -> Color;
 }
@@ -12,13 +15,13 @@ pub struct GrayScale;
 
 impl ColorPalette for GrayScale {
     fn color(&self, iterations: u32, max_iterations: u32) -> Color {
-        let intensity = ((iterations / max_iterations) * 255) as u8
-        [intensity, intensity, intensity, 255]
+        let intensity = ((iterations / max_iterations) * 255) as u8;
+        return [intensity, 0, intensity, 255];
     }
 }
 
 
-pub fn generate_set(fractal: &Fractal, palette: &ColorPalette, width: u32, height: u32, c: Complex) ->  {
+pub fn generate_set(fractal: &dyn Fractal, palette: &dyn ColorPalette, width: u32, height: u32, c: Complex) -> Vec<u8> {
     let mut data = Vec::new();
 
     // parameters
@@ -32,8 +35,13 @@ pub fn generate_set(fractal: &Fractal, palette: &ColorPalette, width: u32, heigh
                 real: y as f64 * scale - param_r,
                 imaginary: x as f64 * scale - param_i,
             };
-            let iter_index = fractal.get_iterations(z, c, max_iterations);
-            let color = palette.color(iter_index);
+            let iter_index = fractal.get_iterations(z, c, 900);
+            let color = palette.color(iter_index, 900);
+
+            data.push(color[0]);
+            data.push(color[1]);
+            data.push(color[2]);
+            data.push(color[3]);
         }
     }
     return data
