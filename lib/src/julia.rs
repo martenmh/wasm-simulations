@@ -11,6 +11,7 @@ impl Fractal for Julia {
             if z.norm() > 2.0 {
                 break;
             }
+            // z = z^2 + c
             z = z.square() + c;
             iter_index += 1;
         }

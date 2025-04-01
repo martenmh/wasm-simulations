@@ -15,7 +15,7 @@ pub struct GrayScale;
 
 impl ColorPalette for GrayScale {
     fn color(&self, iterations: u32, max_iterations: u32) -> Color {
-        let intensity = ((iterations / max_iterations) * 255) as u8;
+        let intensity = ((iterations as f64 / max_iterations as f64) * 255.0) as u8;
         return [intensity, 0, intensity, 255];
     }
 }
@@ -27,7 +27,7 @@ pub fn generate_set(fractal: &dyn Fractal, palette: &dyn ColorPalette, width: u3
     // parameters
     let param_i = 1.5;
     let param_r = 1.5;
-    let scale = 0.005;
+    let scale = 0.002;
 
     for x in 0..width {
         for y in 0..height {

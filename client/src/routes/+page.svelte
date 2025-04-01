@@ -10,17 +10,30 @@
 		lib = await import('lib');
 		await lib.default();
 		lib.greet();
+
+		const socket = new WebSocket("ws://localhost:8080/");
+
+		socket.addEventListener("message", (event) => {
+            if (event.data === "reload-wasm") {
+                console.log("🔁 WASM update detected, reloading...");
+				lib = import('lib');
+				lib.default();
+				lib.greet();
+            }
+        });
+
+        socket.addEventListener("open", () => console.log("⚡ WebSocket connected"));
 	});
 </script>
 
 <button on:click={() => {
 	const canvas = document.getElementById('drawing');
 	const ctx = canvas.getContext('2d');
-	const data = lib.get_set(600, 600, -0.15, 0.64)
+	const data = lib.get_set(1500, 1500, -0.15, 0.64)
 	const imageData = new ImageData(
 		Uint8ClampedArray.from(data),
-		600,
-		600,
+		1500,
+		1500,
 	);
 	ctx.putImageData(imageData, 0, 0);
 	console.log(imageData);
