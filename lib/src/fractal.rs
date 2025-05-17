@@ -15,8 +15,8 @@ pub struct GrayScale;
 
 impl ColorPalette for GrayScale {
     fn color(&self, iterations: u32, max_iterations: u32) -> Color {
-        let intensity = ((iterations as f64 / max_iterations as f64) * 255.0) as u8;
-        return [intensity, 0, intensity, 255];
+        let intensity = ((1.0 - (iterations as f64 / max_iterations as f64)) * 255.0) as u8;
+        return [intensity, intensity , intensity, 255];
     }
 }
 

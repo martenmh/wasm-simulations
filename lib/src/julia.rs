@@ -17,6 +17,15 @@ impl Fractal for Julia {
         }
         return iter_index;
     }
+
+    // get the set of complex numbers for a given point z
+    // used for showing the points of iterations until it either hits max_iterations or is outside
+    // of the set
+    /*
+    fn get_iteration_set(&self, z: Complex, c: Complex, max_iterations: u32) -> vec<Complex> {
+        unimplemented!();
+    }
+    */
 }
 
 

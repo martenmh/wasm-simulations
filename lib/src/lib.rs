@@ -23,7 +23,7 @@ macro_rules! console_log {
 }
 
 #[wasm_bindgen]
-pub fn get_set(width: u32, height: u32, real: f64, imaginary: f64) -> Vec<u8> {
+pub fn get_set(height: u32, width: u32, real: f64, imaginary: f64) -> Vec<u8> {
     let c = Complex { real, imaginary };
     let julia_set = Julia {};
     let grayscale = GrayScale {};
@@ -32,8 +32,8 @@ pub fn get_set(width: u32, height: u32, real: f64, imaginary: f64) -> Vec<u8> {
 
 #[wasm_bindgen]
 pub fn greet() {
-    alert("Hello, lib!");
-    console_log!("Hello, console!");
+    //alert("Hello, lib!");
+    //console_log!("Hello, console!");
 }
 
 
