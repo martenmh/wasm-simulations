@@ -20,23 +20,35 @@ impl ColorPalette for GrayScale {
     }
 }
 
+pub struct Parameters {
+    // Image size
+    pub width: u32,
+    pub height: u32,
+    
+    // Fractal position
+    pub x_offset: f64,
+    pub y_offset: f64,
+    pub scale: f64,
 
-pub fn generate_set(fractal: &dyn Fractal, palette: &dyn ColorPalette, width: u32, height: u32, c: Complex) -> Vec<u8> {
+    // Generation parameters
+    pub max_iterations: u32,
+    pub resolution: f64,
+}
+
+pub fn generate_set(fractal: &dyn Fractal, palette: &dyn ColorPalette, param: Parameters, c: Complex) -> Vec<u8> {
     let mut data = Vec::new();
-
-    // parameters
-    let param_i = 1.5;
-    let param_r = 1.5;
-    let scale = 0.002;
+    let width = (param.width as f64 * param.resolution) as u32;
+    let height = (param.height as f64 * param.resolution) as u32;
 
     for x in 0..width {
         for y in 0..height {
+            
             let z = Complex {
-                real: y as f64 * scale - param_r,
-                imaginary: x as f64 * scale - param_i,
+                real: (y as f64 / param.resolution * param.scale) - param.y_offset,
+                imaginary: (x as f64 / param.resolution * param.scale) - param.x_offset,
             };
-            let iter_index = fractal.get_iterations(z, c, 900);
-            let color = palette.color(iter_index, 900);
+            let iter_index  = fractal.get_iterations(z, c, param.max_iterations);
+            let color       = palette.color(iter_index, param.max_iterations);
 
             data.push(color[0]);
             data.push(color[1]);
